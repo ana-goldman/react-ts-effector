@@ -3,43 +3,46 @@ import { useList, useStore, useStoreMap } from 'effector-react'
 import * as model from './model'
 import { Episode } from '../../types';
 
-import Table from 'react-bootstrap/Table';
+import BootstrapTable from 'react-bootstrap-table-next';
 
 const EpisodeList: React.FC = () => {
   useEffect(() => {
     model.fetchEpisodesFx('https://rickandmortyapi.com/api/episode');
   }, []);
 
-  const episodes = useStore(model.$episodes)
+  const products: Array<[]> = useStore(model.$episodes);
+  const columns = [{
+    dataField: 'id',
+    text: 'ID',
+    sort: true
+  }, 
+  {
+    dataField: 'name',
+    text: 'Name',
+    sort: true
+  }, 
+  {
+    dataField: 'air_date',
+    text: 'Air Date',
+    sort: true
+  },
+  {
+    dataField: 'episode',
+    text: 'Episode N',
+    sort: true
+  },
+  {
+    dataField: 'characters.length',
+    text: 'Number of characters',
+    sort: true,
+    // hidden: true
+  }];
 
   return (
-    <>{console.log(episodes)}
+    <>
       <h1 className="header">Rick and Morty: List of Episodes</h1>
       <h3>Season 1</h3>
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Air Date</th>
-            <th>Episode N</th>
-            <th>Number of characters</th>
-          </tr>
-        </thead>
-        <tbody>
-          {episodes && episodes.map((episode: Episode) => {
-            return (
-              <tr key={episode.id}>
-                <td>{episode.id}</td>
-                <td>{episode.name}</td>
-                <td>{episode.air_date}</td>
-                <td>{episode.episode}</td>
-                <td>{episode.characters.length}</td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </Table>
+      <BootstrapTable striped bordered hover keyField='id' data={ products } columns={ columns } />
     </>
   );
 };

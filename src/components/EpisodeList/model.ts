@@ -16,3 +16,5 @@ export const $episodes = createStore([]).on(
   //   return episodes.results
   // })()] as any
 );
+
+$episodes.watch(console.log);
