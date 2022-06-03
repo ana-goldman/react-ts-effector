@@ -1,20 +1,39 @@
-import { createEffect, createStore } from 'effector';
+import { createEvent, createEffect, createStore } from 'effector';
 
+import { Episode } from '../types';
+
+// creating store for the array of episodes
+export const $episodes = createStore<Episode[]>([]);
+
+//creating event that takes parametr of Episode
+export const update = createEvent<Episode>();
+
+//fetching episodes
 export const fetchEpisodesFx = createEffect(async (url: string) => {
   const response = await fetch(url);
   if (!response.ok) {
     throw Error(response.statusText);
   }
-  return await response.json();
+  const list = await response.json();
+  if (list.info.next !== null) fetchEpisodesFx(list.info.next);
+  list.results.map((o: any) => {return update(o)})
 });
 
-export const $episodes = createStore([]).on(
-  fetchEpisodesFx.doneData,
-  (state, episodes) => episodes.results as any
-  // (state, episodes) => [...state, (() => {
-  //   if (episodes.info.next !== null) fetchEpisodesFx(episodes.info.next)
-  //   return episodes.results
-  // })()] as any
-);
+// handler for an update
+const updateStore = (state: Episode[], data: Episode) => {  
+  const episodeIndex = state.findIndex((episode) => episode.id === data.id);
 
-$episodes.watch(console.log);
+  // changeing state
+  if (episodeIndex > -1) {
+    state.splice(episodeIndex, 1, data);
+  } else {
+    state.push(data);
+  }
+
+  //returning state
+  return [...state];
+};
+
+//subscribing for an event in store
+$episodes.on(update, updateStore);
+$episodes.watch(console.log)

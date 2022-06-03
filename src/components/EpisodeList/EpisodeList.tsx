@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
-import { useList, useStore, useStoreMap } from 'effector-react'
+import { useStore } from 'effector-react'
+import { useNavigate } from 'react-router-dom';
 import * as model from './model'
-import { Episode } from '../../types';
 
 import BootstrapTable from 'react-bootstrap-table-next';
 
 const EpisodeList: React.FC = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     model.fetchEpisodesFx('https://rickandmortyapi.com/api/episode');
   }, []);
 
-  const products: Array<[]> = useStore(model.$episodes);
+  const products = useStore(model.$episodes);
   const columns = [{
     dataField: 'id',
     text: 'ID',
@@ -38,11 +40,15 @@ const EpisodeList: React.FC = () => {
     // hidden: true
   }];
 
+  const rowEvents = {
+    onClick: (e: any, row: { id: string; }, rowIndex: any) => navigate(`/episode/${row.id}`)
+  };
+
   return (
     <>
       <h1 className="header">Rick and Morty: List of Episodes</h1>
       <h3>Season 1</h3>
-      <BootstrapTable striped bordered hover keyField='id' data={ products } columns={ columns } />
+      <BootstrapTable striped bordered hover keyField='id' data={ products } columns={ columns } rowEvents={ rowEvents } />
     </>
   );
 };
