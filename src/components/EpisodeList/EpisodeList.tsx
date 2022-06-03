@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import * as model from './model'
 import { nanoid } from 'nanoid';
 import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
 import { ListOfSeasons } from '../types';
 
 const EpisodeList: React.FC = () => {
@@ -19,7 +20,8 @@ const EpisodeList: React.FC = () => {
   {
     dataField: 'name',
     text: 'Name',
-    sort: true
+    sort: true,
+    filter: textFilter()
   }, 
   {
     dataField: 'air_date',
@@ -63,7 +65,7 @@ const EpisodeList: React.FC = () => {
       {Object.entries(list).map((season) => {
         return <>
           <h3 key={nanoid()}>{`Season ${season[0].slice(2,3)}`}</h3>
-          <BootstrapTable striped bordered hover keyField='id' data={ season[1] } columns={ columns } rowEvents={ rowEvents } />
+          <BootstrapTable striped bordered hover keyField='id' data={ season[1] } columns={ columns } rowEvents={ rowEvents } filter={ filterFactory() }/>
         </>
       })}
     </>
