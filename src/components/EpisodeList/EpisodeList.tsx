@@ -15,7 +15,10 @@ const EpisodeList: React.FC = () => {
   const columns = [{
     dataField: 'id',
     text: 'ID',
-    sort: true
+    sort: true,
+    events: {
+      onClick: ( e: any, column: 'id', columnIndex: 0, row: { id: string; }, rowIndex: any) => navigate(`/episode/${row.id}`)
+    }
   }, 
   {
     dataField: 'name',
@@ -40,10 +43,6 @@ const EpisodeList: React.FC = () => {
     // hidden: true
   }];
 
-  const rowEvents = {
-    onClick: (e: any, row: { id: string; }, rowIndex: any) => navigate(`/episode/${row.id}`)
-  };
-
   useEffect(() => {
     model.fetchEpisodesFx('https://rickandmortyapi.com/api/episode');
   }, []);
@@ -65,7 +64,7 @@ const EpisodeList: React.FC = () => {
       {Object.entries(list).map((season) => {
         return <>
           <h3 key={nanoid()}>{`Season ${season[0].slice(2,3)}`}</h3>
-          <BootstrapTable striped bordered hover keyField='id' data={ season[1] } columns={ columns } rowEvents={ rowEvents } filter={ filterFactory() }/>
+          <BootstrapTable striped bordered hover keyField='id' data={ season[1] } columns={ columns } filter={ filterFactory() }/>
         </>
       })}
     </>
