@@ -5,3 +5,7 @@ export interface Episode {
   episode: string;
   characters: Array<number>;
 }
+
+export interface ListOfSeasons {
+  [key:string]: Array<Episode>
+}

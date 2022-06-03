@@ -36,4 +36,4 @@ const updateStore = (state: Episode[], data: Episode) => {
 
 //subscribing for an event in store
 $episodes.on(update, updateStore);
-$episodes.watch(console.log)
+// $episodes.watch(console.log)
