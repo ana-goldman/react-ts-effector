@@ -3,7 +3,7 @@ import { useStore } from 'effector-react'
 import { useNavigate } from 'react-router-dom';
 import * as model from './model'
 import { Carousel } from 'react-bootstrap';
-import { Character } from '../types';
+import { Character } from '../../modules/types';
 import { nanoid } from 'nanoid';
 
 const CharacterPreview:  React.FC = () => {

@@ -17,8 +17,12 @@ export interface Character {
   species: string,
   type: string,
   gender: string,
-  origin: Object,
-  location: Object,
+  origin: {
+    [key:string]: string
+  },
+  location: {
+    [key:string]: string
+  },
   image: string,
-  episode: Array<[]>,
+  episode: Array<string>,
 }

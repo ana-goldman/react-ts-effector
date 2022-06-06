@@ -5,7 +5,7 @@ import * as model from './model'
 import { nanoid } from 'nanoid';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-import { ListOfSeasons } from '../types';
+import { ListOfSeasons } from '../../modules/types';
 
 const EpisodeList: React.FC = () => {
   const episodes = useStore(model.$episodes);

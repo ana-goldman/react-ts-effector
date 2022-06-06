@@ -4,28 +4,20 @@ import { useStore } from 'effector-react'
 import * as model from './model'
 import * as charModel from '../Character/model'
 import { Card } from 'react-bootstrap';
-import { Episode } from '../types';
+import { Episode } from '../../modules/types';
 import CharacterPreview from '../Character/CharacterPreview';
+import { getList } from '../../modules/getList';
 
 const EpisodePage:  React.FC = () => {
   const { id } = useParams<{id?: string}>(); 
-  const episode:{id: '', name: '', air_date: '', episode: '', characters: []} | Episode = useStore(model.$episode);
+  const episode:Episode = useStore(model.$episode);
   let charcterList:Array<string> = [];
-
-  const getCharactersList = (char: string | null) => {
-    if (char) {
-      const regex = /\d+/g;
-      const string = char;
-      const match:RegExpMatchArray | null = string.match(regex);
-      if (match) return charcterList.push(match[0])
-    }
-  } 
 
   useEffect(() => {
     model.fetchEpisodeFx(`https://rickandmortyapi.com/api/episode/${id}`);
   }, [id]);
 
-  episode.characters.map((each:string) => getCharactersList(each));
+  episode.characters && episode.characters.map((each:string) => getList(each, charcterList));
 
   useEffect(() => {
     if (charcterList.length > 0) charModel.fetchCharactersFx(`https://rickandmortyapi.com/api/character/${charcterList}`);

@@ -1,6 +1,6 @@
 import { createEvent, createEffect, createStore } from 'effector';
 
-import { Episode } from '../types';
+import { Episode } from '../../modules/types';
 
 // creating store for the array of episodes
 export const $episodes = createStore<Episode[]>([]);

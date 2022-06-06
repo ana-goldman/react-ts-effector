@@ -1,6 +1,6 @@
 import { createEffect, createStore } from 'effector';
 
-import { Episode } from '../types';
+import { Episode } from '../../modules/types';
 
 //fetching episode
 export const fetchEpisodeFx = createEffect(async (url: string) => {
@@ -12,7 +12,7 @@ export const fetchEpisodeFx = createEffect(async (url: string) => {
 });
 
 // creating store with an episode fetched 
-export const $episode = createStore<{id: '', name: '', air_date: '', episode: '', characters: []} | Episode>({id: '', name: '', air_date: '', episode: '', characters: []})
+export const $episode = createStore<Episode>({} as Episode)
 .on(
   fetchEpisodeFx.doneData,
   (state, episode) => episode as Episode
