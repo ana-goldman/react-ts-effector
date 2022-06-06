@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import EpisodeList from './components/EpisodeList/EpisodeList';
-import Episode from './components/Episode/Episode';
+import EpisodePage from './components/EpisodePage/EpisodePage';
+import CharacterPage from './components/Character/CharacterPage';
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<EpisodeList/>}/>
-            <Route path="/episode/:id" element={<Episode />}/>
+            <Route path="/episode/:id" element={<EpisodePage/>}/>
+            <Route path="/character/:id" element={<CharacterPage/>}/>
           </Routes>
         </Router>
       </Container>

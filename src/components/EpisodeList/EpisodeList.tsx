@@ -17,7 +17,7 @@ const EpisodeList: React.FC = () => {
     text: 'ID',
     sort: true,
     events: {
-      onClick: ( e: any, column: 'id', columnIndex: 0, row: { id: string; }, rowIndex: any) => navigate(`/episode/${row.id}`)
+      onClick: ( e: any, column: 'id', columnIndex: 0, row: { id: number; }, rowIndex: any) => navigate(`/episode/${row.id}`)
     }
   }, 
   {
