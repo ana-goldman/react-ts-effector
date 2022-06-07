@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useStore } from 'effector-react'
 import * as model from './model'
+import * as eModel from '../EpisodeList/model'
 import { Figure, ListGroup, ListGroupItem } from 'react-bootstrap';
-import { Character } from '../../modules/types';
+import { Character, Episode } from '../../modules/types';
 import { getList } from '../../modules/getList';
+import { nanoid } from 'nanoid';
 
 const CharacterPage:  React.FC = () => {
   const { id } = useParams<{id?: string}>(); 
   const navigate = useNavigate();
   const character:Character = useStore(model.$character);
+  const episodes:Episode[] = useStore(eModel.$episodes);
   const episodeList:Array<string> = [];
 
   useEffect(() => {
@@ -18,6 +21,10 @@ const CharacterPage:  React.FC = () => {
   }, [id]);
 
   character.episode && character.episode.map((each:string) => getList(each, episodeList));
+
+  useEffect(() => {
+    if (episodeList.length > 0) eModel.fetchEpisodesFx(`https://rickandmortyapi.com/api/episode/${episodeList}`);
+  }, [character]);
 
   const handleClick = (string: string) => {
     const id:number | undefined = getList(string, []);
@@ -47,10 +54,10 @@ const CharacterPage:  React.FC = () => {
           <ListGroupItem>Origin: {character.origin.name}</ListGroupItem>
         }
         {(character.location && character.location.name !== 'unknown') && 
-        <ListGroupItem onClick={() => handleClick(character.location.url)}>Location: {character.location.name}</ListGroupItem>
+        <ListGroupItem style={{cursor:'pointer'}} onClick={() => handleClick(character.location.url)}>Location: {character.location.name}</ListGroupItem>
         }
-        <ListGroupItem>Appears in episodes: {episodeList.map((each:string) => {
-          return episodeList.indexOf(each) !== (episodeList.length - 1) ? `${each}, ` : each
+        <ListGroupItem>Appears in episodes: {episodes.map((each:Episode) => {
+          return <Link to={`/episode/${each.id}`} key={nanoid()}><br/>{each.name}</Link>
         })}</ListGroupItem>
       </ListGroup>
     </>

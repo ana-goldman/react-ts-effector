@@ -15,8 +15,12 @@ export const fetchEpisodesFx = createEffect(async (url: string) => {
     throw Error(response.statusText);
   }
   const list = await response.json();
-  if (list.info.next !== null) fetchEpisodesFx(list.info.next);
-  list.results.map((o: any) => {return update(o)})
+  if (list.info && list.info.next !== null) fetchEpisodesFx(list.info.next);
+  if (list.results) {
+    list.results.map((o: any) => {return update(o)})
+  } else {
+    list.length > 1 ? list.map((o: Episode) => {return update(o)}) : update(list)
+  }
 });
 
 // handler for an update
