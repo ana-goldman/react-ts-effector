@@ -4,6 +4,7 @@ import Container from 'react-bootstrap/Container';
 import EpisodeList from './components/EpisodeList/EpisodeList';
 import EpisodePage from './components/EpisodePage/EpisodePage';
 import CharacterPage from './components/Character/CharacterPage';
+import LocationPage from './components/Location/LocationPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<EpisodeList/>}/>
             <Route path="/episode/:id" element={<EpisodePage/>}/>
             <Route path="/character/:id" element={<CharacterPage/>}/>
+            <Route path="/location/:id" element={<LocationPage/>}/>
           </Routes>
         </Router>
       </Container>
