@@ -4,15 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import * as model from './model'
 import { nanoid } from 'nanoid';
 import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import ToolkitProvider, { Search, ColumnToggle } from 'react-bootstrap-table2-toolkit';
+import { ToolkitContextType } from 'react-bootstrap-table2-toolkit';
+// import ToolkitProvider, { Search, ColumnToggle } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import { ListOfSeasons } from '../../modules/types';
 
 const EpisodeList: React.FC = () => {
   const episodes = useStore(model.$episodes);
   const list:ListOfSeasons = {};
   const navigate = useNavigate();
-
-  const columns = [{
+  const { ToggleList } = ColumnToggle;
+  const { SearchBar, ClearSearchButton } = Search;
+  const columns:any = [{
     dataField: 'id',
     text: 'ID',
     sort: true,
@@ -25,23 +28,21 @@ const EpisodeList: React.FC = () => {
     dataField: 'name',
     text: 'Name',
     sort: true,
-    filter: textFilter()
   }, 
   {
     dataField: 'air_date',
     text: 'Air Date',
-    sort: true
+    sort: true,
   },
   {
     dataField: 'episode',
     text: 'Episode N',
-    sort: true
+    sort: true,
   },
   {
     dataField: 'characters.length',
     text: 'Number of characters',
     sort: true,
-    // hidden: true
   }];
 
   useEffect(() => {
@@ -65,7 +66,31 @@ const EpisodeList: React.FC = () => {
       {Object.entries(list).map((season) => {
         return <>
           <h3 key={nanoid()}>{`Season ${season[0].slice(2,3)}`}</h3>
-          <BootstrapTable striped bordered hover keyField='id' data={ season[1] } columns={ columns } filter={ filterFactory() }/>
+          <ToolkitProvider
+            keyField="id"
+            data={ season[1] }
+            columns={ columns }
+            columnToggle
+            search
+          >
+            {
+              (props: ToolkitContextType) => (
+                <div>
+                  <ToggleList { ...props.columnToggleProps } />
+                  <hr />
+                  <SearchBar { ...props.searchProps } />
+                  <ClearSearchButton { ...props.searchProps } />
+                  <hr />
+                  <BootstrapTable
+                    { ...props.baseProps }
+                  />
+                </div>
+              )
+            }
+          </ToolkitProvider>
+          
+          
+          {/* <BootstrapTable striped bordered hover keyField='id' data={ season[1] } columns={ columns } filter={ filterFactory() }/> */}
         </>
       })}
     </>
