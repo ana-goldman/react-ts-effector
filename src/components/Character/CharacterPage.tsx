@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate, Link } from 'react-router-dom';
-import { useStore } from 'effector-react'
-import * as model from './model'
-import * as eModel from '../EpisodeList/model'
-import { Figure, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { useStore } from 'effector-react';
+import * as model from './model';
+import * as eModel from '../EpisodeList/model';
+import { Figure, ListGroup, ListGroupItem, Button } from 'react-bootstrap';
 import { Character, Episode } from '../../modules/types';
 import { getList } from '../../modules/getList';
 import { nanoid } from 'nanoid';
@@ -60,6 +60,8 @@ const CharacterPage:  React.FC = () => {
           return <Link to={`/episode/${each.id}`} key={nanoid()}><br/>{each.name}</Link>
         })}</ListGroupItem>
       </ListGroup>
+      <Button href={'http://localhost:3000/'} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='my-3' size="lg">Main</Button>
+      <Button onClick={() => navigate(-1)} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='m-3' size="lg">Back</Button>
     </>
   )
 }

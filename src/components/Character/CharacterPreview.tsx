@@ -12,7 +12,7 @@ const CharacterPreview:  React.FC = () => {
 
   return (
     <>
-      <Carousel style={{backgroundColor:"black", cursor: 'pointer'}}>
+      <Carousel style={{backgroundColor:"rgba(0, 0, 0, 0.34)", cursor: 'pointer'}}>
         {characters.map((each) => {
           return (
             <Carousel.Item key={nanoid()} onClick={()=> navigate(`/character/${each.id}`)}>
@@ -28,7 +28,6 @@ const CharacterPreview:  React.FC = () => {
             </Carousel.Item>
           )
         })}
-        
       </Carousel>
     </>
   )

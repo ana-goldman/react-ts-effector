@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import { useStore } from 'effector-react';
 import * as model from './model';
 import * as charModel from '../Character/model';
 import { Location, Character } from '../../modules/types';
-import { Card, Figure } from 'react-bootstrap';
+import { Card, Figure, Button } from 'react-bootstrap';
 import { getList } from '../../modules/getList';
 import { nanoid } from 'nanoid';
 
 const LocationPage: React.FC = () => {
   const { id } = useParams<{id?: string}>(); 
+  const navigate = useNavigate();
   const location:Location = useStore(model.$location);
   const characters:Character[] = useStore(charModel.$characters);
   const residentList:Array<string> = [];
@@ -49,6 +51,8 @@ const LocationPage: React.FC = () => {
         </Card.Body>
         
       </Card>
+      <Button href={'http://localhost:3000/'} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='my-3' size="lg">Main</Button>
+      <Button onClick={() => navigate(-1)} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='m-3' size="lg">Back</Button>
     </>
   )
 }
