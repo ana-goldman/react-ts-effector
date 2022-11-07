@@ -60,7 +60,7 @@ const CharacterPage:  React.FC = () => {
           return <Link to={`/episode/${each.id}`} key={nanoid()}><br/>{each.name}</Link>
         })}</ListGroupItem>
       </ListGroup>
-      <Button href={'http://localhost:3000/'} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='my-3' size="lg">Main</Button>
+      <Button href={'/'} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='my-3' size="lg">Main</Button>
       <Button onClick={() => navigate(-1)} variant="secondary" style={{backgroundColor: 'rgba(0, 0, 0, 0.34)'}} className='m-3' size="lg">Back</Button>
     </>
   )
